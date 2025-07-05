@@ -22,7 +22,7 @@ const Historia = sequelize.define('Historia', {
         }
     },
     titulo: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(50),
         allowNull: false
     },
     id_genero: {
@@ -71,6 +71,10 @@ const Historia = sequelize.define('Historia', {
     },
     fecha_edicion: {
         type: DataTypes.DATE,
+        allowNull: false
+    },
+    paso_actual: {
+        type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {

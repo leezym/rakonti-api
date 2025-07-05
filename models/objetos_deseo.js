@@ -11,12 +11,8 @@ const ObjetoDeseo = sequelize.define('ObjetoDeseo', {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    descripcion: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
     imagen: {
-        type: DataTypes.BLOB('long'),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {

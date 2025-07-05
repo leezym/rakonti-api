@@ -15,15 +15,19 @@ const EstructurasNarrativas = sequelize.define('EstructurasNarrativas', {
         type: DataTypes.STRING(1000),
         allowNull: false
     },
-    resumen: {
+    escritor: {
         type: DataTypes.STRING(1000),
         allowNull: false
     },
-    imagen: {
-        type: DataTypes.STRING(100),
+    hitos_nombre:{
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         allowNull: false
     },
-    imagen_background: {
+    hitos_cantidad:{
+        type: DataTypes.JSON,
+        allowNull: false
+    },
+    imagen: {
         type: DataTypes.STRING(100),
         allowNull: false
     }

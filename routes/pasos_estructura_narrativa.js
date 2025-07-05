@@ -7,6 +7,6 @@ router.get('/:id', controller.getPasoById);
 router.post('/', controller.createPaso);
 router.put('/:id', controller.updatePaso);
 router.delete('/:id', controller.deletePaso);
-router.get('/:id_estructura', controller.getPasosByEstructura);
+router.get('/estructura/:id_estructura', controller.getPasosByEstructura);
 
 module.exports = router;

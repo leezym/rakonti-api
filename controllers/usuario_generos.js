@@ -1,4 +1,6 @@
 const Usuario_Generos = require('../models/usuario_generos');
+const Usuarios = require('../models/usuarios');
+const Generos = require('../models/generos');
 
 exports.getAllUsuarioGeneros = async (req, res) => {
     try {
@@ -23,6 +25,25 @@ exports.getUsuarioGeneroById = async (req, res) => {
         res.json(relacion);
     } catch (error) {
         res.status(500).json({ error: 'Error al buscar la relación usuario-género', detalle: error.message });
+    }
+};
+
+exports.getAllGenerosByUser = async (req, res) => {
+    try {
+        const user = await Usuarios.findByPk(req.params.id_usuario, {
+            include: {
+                model: Generos,
+                attributes: ['id_genero', 'nombre']
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        res.json(user.Generos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al buscar los géneros del usuario', detalle: error.message });
     }
 };
 

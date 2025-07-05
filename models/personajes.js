@@ -34,11 +34,11 @@ const Personaje = sequelize.define('Personaje', {
         allowNull: false
     },
     plan: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     decision: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     id_personalidad: {
@@ -51,27 +51,27 @@ const Personaje = sequelize.define('Personaje', {
     },
     apariencia: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     intereses: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
-    creencias_religiosas: {
+    creencias: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     ocupacion: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     estatus_social: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     antecedentes: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     }
 }, {
     tableName: 'personajes',

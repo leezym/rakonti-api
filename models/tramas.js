@@ -16,7 +16,7 @@ const Trama = sequelize.define('Trama', {
         allowNull: false
     },
     imagen: {
-        type: DataTypes.BLOB('long'),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {

@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require('../controllers/historias');
 
 router.get('/', controller.getAllHistorias);
-router.get('/:id', controller.getHistoriaById);
+//router.get('/:id', controller.getHistoriaById);
 router.post('/', controller.createHistoria);
 router.put('/:id', controller.updateHistoria);
 router.delete('/:id', controller.deleteHistoria);

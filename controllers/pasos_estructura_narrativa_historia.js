@@ -50,18 +50,17 @@ exports.deletePaso = async (req, res) => {
 };
 
 exports.getPasoByHistoria = async (req, res) => {
-    const { id_historia, id_paso_estructura } = req.params;
+    const { id_historia } = req.params;
 
     try {
-        const paso = await Pasos_Estructura_Narrativa_Historia.findAll({
+        const pasos = await Pasos_Estructura_Narrativa_Historia.findAll({
             where: {
-                id_historia,
-                id_paso_estructura
+                id_historia
             }
         });
 
-        res.status(200).json(paso);
+        res.status(200).json(pasos);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el paso de la estructura narrativa por historia', detalle: error.message });
+        res.status(500).json({ error: 'Error al obtener los pasos de la estructura narrativa por historia', detalle: error.message });
     }
 };

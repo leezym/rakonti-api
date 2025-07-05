@@ -99,7 +99,7 @@ exports.iniciarSesion = async (req, res) => {
 
         const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, 'SECRETO_JWT', { expiresIn: '1h' });
 
-        res.json({ mensaje: 'Inicio de sesión exitoso', token });
+        res.json({ mensaje: 'Inicio de sesión exitoso', token, id_usuario: usuario.id_usuario });
     } catch (error) {
         res.status(500).json({ error: 'Error al iniciar sesión', detalle: error.message });
     }

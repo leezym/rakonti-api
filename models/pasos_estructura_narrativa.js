@@ -15,11 +15,14 @@ const PasoEstructuraNarrativa = sequelize.define('PasoEstructuraNarrativa', {
             key: 'id_estructura'
         }
     },
+    numero_paso:{
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     nombre_paso: {
         type: DataTypes.STRING(100),
         allowNull: false
-    }
-    ,
+    },
     descripcion: {
         type: DataTypes.STRING(200),
         allowNull: false

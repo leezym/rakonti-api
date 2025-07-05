@@ -55,6 +55,7 @@ exports.deletePaso = async (req, res) => {
 
 exports.getPasosByEstructura = async (req, res) => {
     const { id_estructura } = req.params;
+    console.log(id_estructura)
 
     try {
         const pasos = await Pasos_Estructura_Narrativa.findAll({

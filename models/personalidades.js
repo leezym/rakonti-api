@@ -14,6 +14,10 @@ const Personalidades = sequelize.define('Personalidades', {
     descripcion: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    imagen: {
+        type: DataTypes.STRING(100),
+        allowNull: false
     }
 }, {
     tableName: 'personalidades',

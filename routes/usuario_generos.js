@@ -4,6 +4,7 @@ const controller = require('../controllers/usuario_generos');
 
 router.get('/', controller.getAllUsuarioGeneros);
 router.get('/:id_usuario/:id_genero', controller.getUsuarioGeneroById);
+router.get('/:id_usuario', controller.getAllGenerosByUser);
 router.post('/', controller.createUsuarioGenero);
 router.put('/:id_usuario/:id_genero', controller.updateUsuarioGenero);
 router.delete('/:id_usuario/:id_genero', controller.deleteUsuarioGenero);

@@ -16,7 +16,7 @@ const TiempoEspacio = sequelize.define('TiempoEspacio', {
         allowNull: false
     },
     imagen: {
-        type: DataTypes.BLOB('long'),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {

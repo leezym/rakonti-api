@@ -16,7 +16,7 @@ const Genero = sequelize.define('Genero', {
         allowNull: false
     },
     imagen: {
-        type: DataTypes.BLOB('long'),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {
