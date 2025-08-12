@@ -20,7 +20,7 @@ const Usuario = sequelize.define('Usuario', {
         allowNull: false
     },
     sexo: {
-        type: DataTypes.ENUM('Masculino', 'Femenino', 'Otro'),
+        type: DataTypes.ENUM('Femenino', 'Masculino', 'No binario', 'Trangénero', 'Transexual', 'Queer'),
         allowNull: false
     },
     correo: {

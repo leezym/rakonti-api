@@ -1,5 +1,5 @@
 -- Crear tipo ENUM para sexo
-CREATE TYPE sexo_enum AS ENUM ('Masculino', 'Femenino', 'Otro');
+CREATE TYPE sexo_enum AS ENUM ('Femenino', 'Masculino', 'No binario', 'Trangénero', 'Transexual', 'Queer');
 
 -- Tabla Usuarios
 CREATE TABLE Usuarios (
@@ -124,6 +124,22 @@ CREATE TABLE Personajes (
     antecedentes TEXT NOT NULL,
     FOREIGN KEY (id_historia) REFERENCES Historias(id_historia),
     FOREIGN KEY (id_personalidad) REFERENCES Personalidades(id_personalidad)
+);
+
+-- Tabla Roles
+CREATE TABLE roles (
+    id_rol SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion TEXT NOT NULL
+);
+
+-- Tabla Personaje_Roles
+CREATE TABLE personaje_roles (
+    id_personaje INTEGER NOT NULL,
+    id_rol INTEGER NOT NULL,
+    PRIMARY KEY (id_personaje, id_rol),
+    FOREIGN KEY (id_personaje) REFERENCES personajes (id_personaje),
+    FOREIGN KEY (id_rol) REFERENCES roles (id_rol)
 );
 
 -- Tabla Logros

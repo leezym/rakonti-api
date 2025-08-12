@@ -21,10 +21,35 @@ exports.getPasoById = async (req, res) => {
 
 exports.createPaso = async (req, res) => {
     try {
-        const nuevoPaso = await Pasos_Estructura_Narrativa_Historia.create(req.body);
-        res.status(201).json(nuevoPaso);
+        const { id_historia, id_paso_estructura, contenido } = req.body;
+
+        // Verificar si ya existe el paso
+        const pasoExistente = await Pasos_Estructura_Narrativa_Historia.findOne({
+            where: {
+                id_historia,
+                id_paso_estructura
+            }
+        });
+
+        let paso;
+
+        if (pasoExistente) {
+            // Si existe, actualizar
+            paso = await pasoExistente.update({ contenido });
+            res.status(200).json({ message: 'Paso actualizado correctamente', paso });
+        } else {
+            // Si no existe, crear
+            paso = await Pasos_Estructura_Narrativa_Historia.create({
+                id_historia,
+                id_paso_estructura,
+                contenido
+            });
+            res.status(201).json({ message: 'Paso creado correctamente', paso });
+        }
+
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el paso', detalle: error.message });
+        console.error('Error al crear o actualizar el paso:', error);
+        res.status(400).json({ error: 'Error al crear o actualizar el paso', detalle: error.message });
     }
 };
 
@@ -49,13 +74,13 @@ exports.deletePaso = async (req, res) => {
     }
 };
 
-exports.getPasoByHistoria = async (req, res) => {
+exports.getPasosByHistoria = async (req, res) => {
     const { id_historia } = req.params;
 
     try {
         const pasos = await Pasos_Estructura_Narrativa_Historia.findAll({
             where: {
-                id_historia
+                id_historia: id_historia
             }
         });
 

@@ -7,6 +7,6 @@ router.get('/:id', controller.getPasoById);
 router.post('/', controller.createPaso);
 router.put('/:id', controller.updatePaso);
 router.delete('/:id', controller.deletePaso);
-router.get('/historia/:id_historia', controller.getPasoByHistoria);
+router.get('/historia/:id_historia', controller.getPasosByHistoria);
 
 module.exports = router;

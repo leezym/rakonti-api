@@ -9,10 +9,6 @@ const TipsConsejos = sequelize.define('TipsConsejos', {
         primaryKey: true,
         autoIncrement: true
     },
-    nombre: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    },
     descripcion: {
         type: DataTypes.TEXT,
         allowNull: false

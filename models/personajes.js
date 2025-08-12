@@ -30,7 +30,7 @@ const Personaje = sequelize.define('Personaje', {
         allowNull: false
     },
     sexo: {
-        type: DataTypes.ENUM('Masculino', 'Femenino', 'Otro'),
+        type: DataTypes.ENUM('Femenino', 'Masculino', 'No binario', 'Trangénero', 'Transexual', 'Queer'),
         allowNull: false
     },
     plan: {
