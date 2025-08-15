@@ -25,7 +25,7 @@ const PersonajeRol = sequelize.define('PersonajeRol', {
     timestamps: false
 });
 
-Personajes.belongsToMany(Roles, { through: PersonajeRol, foreignKey: 'id_personaje' });
-Roles.belongsToMany(Personajes, { through: PersonajeRol, foreignKey: 'id_rol' });
+Personajes.belongsToMany(Roles, { through: PersonajeRol, as: 'roles', foreignKey: 'id_personaje' });
+Roles.belongsToMany(Personajes, { through: PersonajeRol, as: 'personajes', foreignKey: 'id_rol' });
 
 module.exports = PersonajeRol;

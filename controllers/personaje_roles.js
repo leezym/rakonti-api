@@ -30,18 +30,19 @@ exports.getPersonajeRolById = async (req, res) => {
 
 exports.getAllRolesByPersonaje = async (req, res) => {
     try {
-        const user = await Personajes.findByPk(req.params.id_personaje, {
+        const personaje = await Personajes.findByPk(req.params.id_personaje, {
             include: {
                 model: Roles,
+                as: 'roles',
                 attributes: ['id_rol', 'nombre']
             }
         });
 
-        if (!user) {
+        if (!personaje) {
             return res.status(404).json({ error: 'Personaje no encontrado' });
         }
-
-        res.json(user.Roles);
+        
+        res.json(personaje.roles);
     } catch (error) {
         res.status(500).json({ error: 'Error al buscar los roles del personaje', detalle: error.message });
     }
