@@ -6,12 +6,12 @@ module.exports = {
       watch: false,
       env: {
         NODE_ENV: "production",
-        PORT: 55303,
-        DB_NAME: "rakonti",
-        DB_USER: "admin",
-        DB_PASSWORD: "admin",
-        DB_HOST: "localhost",
-        DB_PORT: 5432
+        PORT: PORT,
+        DB_NAME: DB_NAME,
+        DB_USER: DB_USER,
+        DB_PASSWORD: DB_PASSWORD,
+        DB_HOST: DB_HOST,
+        DB_PORT: DB_PORT
       }
     }
   ]
