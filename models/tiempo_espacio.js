@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 
-const TiempoEspacio = sequelize.define('TiempoEspacio', {
+const Tiempo_Espacio = sequelize.define('Tiempo_Espacio', {
     id_tiempo_espacio: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,4 +24,4 @@ const TiempoEspacio = sequelize.define('TiempoEspacio', {
     timestamps: false
 });
 
-module.exports = TiempoEspacio;
+module.exports = Tiempo_Espacio;

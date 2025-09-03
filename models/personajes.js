@@ -2,8 +2,10 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 const Historias = require('./historias');
 const Personalidades = require('./personalidades');
+const Roles = require('./roles');
+const Personaje_Roles = require('./personaje_roles'); 
 
-const Personaje = sequelize.define('Personaje', {
+const Personajes = sequelize.define('Personajes', {
     id_personaje: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -78,4 +80,12 @@ const Personaje = sequelize.define('Personaje', {
     timestamps: false
 });
 
-module.exports = Personaje;
+Personajes.belongsTo(Personalidades, { foreignKey: 'id_personalidad', as: 'personalidades' });
+Personajes.belongsToMany(Roles, { 
+  through: 'Personaje_Roles', 
+  as: 'roles', 
+  foreignKey: 'id_personaje',
+  otherKey: 'id_rol'
+});
+
+module.exports = Personajes;

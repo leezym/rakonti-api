@@ -1,4 +1,4 @@
-const LogrosUsuarios = require('../models/logros_usuarios');
+const Logros_Usuarios = require('../models/logros_usuarios');
 
 exports.getAllLogrosUsuarios = async (req, res) => {
     try {

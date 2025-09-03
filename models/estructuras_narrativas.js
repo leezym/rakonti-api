@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 
-const EstructurasNarrativas = sequelize.define('EstructurasNarrativas', {
+const Estructuras_Narrativas = sequelize.define('Estructuras_Narrativas', {
     id_estructura: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -36,4 +36,4 @@ const EstructurasNarrativas = sequelize.define('EstructurasNarrativas', {
     timestamps: false
 });
 
-module.exports = EstructurasNarrativas;
+module.exports = Estructuras_Narrativas;

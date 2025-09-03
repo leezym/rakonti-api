@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 
-const Trama = sequelize.define('Trama', {
+const Tramas = sequelize.define('Tramas', {
     id_trama: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,4 +24,4 @@ const Trama = sequelize.define('Trama', {
     timestamps: false
 });
 
-module.exports = Trama;
+module.exports = Tramas;

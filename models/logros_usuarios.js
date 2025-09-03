@@ -3,7 +3,7 @@ const sequelize = require('../db/db');
 const Usuarios = require('./usuarios');
 const Logros = require('./logros');
 
-const LogrosUsuarios = sequelize.define('LogrosUsuarios', {
+const Logros_Usuarios = sequelize.define('Logros_Usuarios', {
     id_usuario: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -29,4 +29,4 @@ const LogrosUsuarios = sequelize.define('LogrosUsuarios', {
     timestamps: false
 });
 
-module.exports = LogrosUsuarios;
+module.exports = Logros_Usuarios;

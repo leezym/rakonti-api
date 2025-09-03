@@ -3,7 +3,7 @@ const sequelize = require('../db/db');
 const EstructurasNarrativas = require('./estructuras_narrativas');
 const PasoEstructuraNarrativa = require('./pasos_estructura_narrativa');
 
-const TipsConsejos = sequelize.define('TipsConsejos', {
+const Tips_Consejos = sequelize.define('Tips_Consejos', {
     id_tip: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -34,4 +34,4 @@ const TipsConsejos = sequelize.define('TipsConsejos', {
     timestamps: false
 });
 
-module.exports = TipsConsejos;
+module.exports = Tips_Consejos;

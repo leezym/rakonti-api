@@ -3,7 +3,7 @@ const sequelize = require('../db/db');
 const Usuarios = require('./usuarios');
 const Generos = require('./generos');
 
-const UsuarioGenero = sequelize.define('UsuarioGenero', {
+const Usuario_Generos = sequelize.define('Usuario_Generos', {
     id_usuario: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -25,7 +25,7 @@ const UsuarioGenero = sequelize.define('UsuarioGenero', {
     timestamps: false
 });
 
-Usuarios.belongsToMany(Generos, { through: UsuarioGenero, foreignKey: 'id_usuario' });
-Generos.belongsToMany(Usuarios, { through: UsuarioGenero, foreignKey: 'id_genero' });
+Usuarios.belongsToMany(Generos, { through: Usuario_Generos, foreignKey: 'id_usuario' });
+Generos.belongsToMany(Usuarios, { through: Usuario_Generos, foreignKey: 'id_genero' });
 
-module.exports = UsuarioGenero;
+module.exports = Usuario_Generos;

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/db');
 
-const Rol = sequelize.define('Rol', {
+const Roles = sequelize.define('Roles', {
     id_rol: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -20,4 +20,4 @@ const Rol = sequelize.define('Rol', {
     timestamps: false
 });
 
-module.exports = Rol;
+module.exports = Roles;

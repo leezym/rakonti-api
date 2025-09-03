@@ -3,7 +3,7 @@ const sequelize = require('../db/db');
 const Historias = require('./historias');
 const PasosEstructuraNarrativa = require('./pasos_estructura_narrativa');
 
-const PasosEstructuraNarrativaHistoria = sequelize.define('PasosEstructuraNarrativaHistoria', {
+const Pasos_Estructura_Narrativa_Historia = sequelize.define('Pasos_Estructura_Narrativa_Historia', {
     id_paso_historia: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -34,4 +34,4 @@ const PasosEstructuraNarrativaHistoria = sequelize.define('PasosEstructuraNarrat
     timestamps: false
 });
 
-module.exports = PasosEstructuraNarrativaHistoria;
+module.exports = Pasos_Estructura_Narrativa_Historia;
