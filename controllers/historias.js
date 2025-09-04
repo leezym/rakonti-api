@@ -30,18 +30,17 @@ exports.getHistoriaById = async (req, res) => {
 
 exports.createHistoria = async (req, res) => {
   try {
-    const { titulo } = req.body;
+    const { titulo, id_usuario } = req.body;
 
     const historiaExistente = await Historias.findOne({
         where: {
-            titulo: {
-                [Op.iLike]: titulo.trim()
-            }
+            titulo: { [Op.iLike]: titulo.trim() },
+            id_usuario
         }
     });
 
     if (historiaExistente) {
-        return res.status(409).json({ error: 'Ya existe una historia con ese título' });
+        return res.status(409).json({ error: 'Ya tienes una historia con ese título' });
     }
 
     const nuevaHistoria = await Historias.create(req.body);
