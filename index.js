@@ -80,8 +80,8 @@ app.get("/rakonti/test-db", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
     res.json({ success: true, time: result.rows[0] });
-  } catch (err) {
-    console.error("❌ Error DB:", err);
+  } catch (error) {
+    console.error("❌ Error DB:", error);
     res.status(500).json({ error: "Error conectando a la base de datos" });
   }
 });

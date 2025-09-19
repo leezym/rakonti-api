@@ -5,7 +5,7 @@ exports.verificarToken = (req, res, next) => {
   const token = authHeader?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ error: 'Token requerido' });
+    return res.status(401).json({ error: 'Token requerido', detalle: error.message });
   }
 
   try {
@@ -13,6 +13,6 @@ exports.verificarToken = (req, res, next) => {
     req.user = decoded; // Aquí se guarda la info del usuario autenticado
     next(); // Pasa a la siguiente función (por ejemplo, al controlador)
   } catch (error) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
+    return res.status(401).json({ error: 'Token inválido o expirado', detalle: error.message });
   }
 };

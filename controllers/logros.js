@@ -22,9 +22,9 @@ exports.getLogroById = async (req, res) => {
 exports.createLogro = async (req, res) => {
     try {
         const nuevoLogro = await Logros.create(req.body);
-        res.status(201).json(nuevoLogro);
+        res.status(201).json({ message: 'Logro creado correctamente', data: nuevoLogro });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el logro', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el logro', detalle: error.message });
     }
 };
 
@@ -33,9 +33,9 @@ exports.updateLogro = async (req, res) => {
         const [updated] = await Logros.update(req.body, { where: { id_logro: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Logro no encontrado', detalle: error.message });
         const updatedLogro = await Logros.findByPk(req.params.id);
-        res.json(updatedLogro);
+        res.status(200).json({ message: 'Logro actualizado correctamente', data: updatedLogro });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el logro', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el logro', detalle: error.message });
     }
 };
 

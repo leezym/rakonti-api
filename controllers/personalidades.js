@@ -22,9 +22,9 @@ exports.getPersonalidadById = async (req, res) => {
 exports.createPersonalidad = async (req, res) => {
     try {
         const nuevaPersonalidad = await Personalidades.create(req.body);
-        res.status(201).json(nuevaPersonalidad);
+        res.status(201).json({ message: 'Personalidad creada correctamente', data: nuevaPersonalidad });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear la personalidad', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear la personalidad', detalle: error.message });
     }
 };
 
@@ -32,10 +32,10 @@ exports.updatePersonalidad = async (req, res) => {
     try {
         const [updated] = await Personalidades.update(req.body, { where: { id_personalidad: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Personalidad no encontrada', detalle: error.message });
-        const personalidadActualizada = await Personalidades.findByPk(req.params.id);
-        res.json(personalidadActualizada);
+        const updatedPersonalidad = await Personalidades.findByPk(req.params.id);
+        res.status(200).json({ message: 'Personalidad actualizada correctamente', data: updatedPersonalidad });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la personalidad', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar la personalidad', detalle: error.message });
     }
 };
 
@@ -48,5 +48,3 @@ exports.deletePersonalidad = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar la personalidad', detalle: error.message });
     }
 };
-
-// pdte combinaciones de opciones para devolver la personalidad correspondiente (front o back?)

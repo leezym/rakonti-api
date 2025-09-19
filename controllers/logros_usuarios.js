@@ -29,9 +29,9 @@ exports.getLogroUsuarioById = async (req, res) => {
 exports.createLogroUsuario = async (req, res) => {
     try {
         const nuevoLogroUsuario = await Logros_Usuarios.create(req.body);
-        res.status(201).json(nuevoLogroUsuario);
+        res.status(201).json({ message: 'Relación usuario-logro creada correctamente', data: nuevoLogroUsuario });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear la relación usuario-logro', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear la relación usuario-logro', detalle: error.message });
     }
 };
 
@@ -52,9 +52,9 @@ exports.updateLogroUsuario = async (req, res) => {
                 id_logro: req.params.id_logro
             }
         });
-        res.json(updatedRel);
+        res.status(200).json({ message: 'Relación usuario-logro actualizada correctamente', data: updatedRel });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la relación usuario-logro', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar la relación usuario-logro', detalle: error.message });
     }
 };
 

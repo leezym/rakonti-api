@@ -22,9 +22,9 @@ exports.getEstructuraById = async (req, res) => {
 exports.createEstructura = async (req, res) => {
     try {
         const nuevaEstructura = await Estructuras_Narrativas.create(req.body);
-        res.status(201).json(nuevaEstructura);
+        res.status(201).json({ message: 'Estructura narrativa creada correctamente', data: nuevaEstructura });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear la estructura narrativa', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear la estructura narrativa', detalle: error.message });
     }
 };
 
@@ -32,10 +32,10 @@ exports.updateEstructura = async (req, res) => {
     try {
         const [updated] = await Estructuras_Narrativas.update(req.body, { where: { id_estructura: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Estructura narrativa no encontrada', detalle: error.message });
-        const estructuraActualizada = await Estructuras_Narrativas.findByPk(req.params.id);
-        res.json(estructuraActualizada);
+        const updateEstructura = await Estructuras_Narrativas.findByPk(req.params.id);
+        res.status(200).json({ message: 'Estructura narrativa actualizada correctamente', data: updateEstructura });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la estructura narrativa', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar la estructura narrativa', detalle: error.message });
     }
 };
 

@@ -38,7 +38,7 @@ exports.getAllGenerosByUser = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
+            return res.status(404).json({ error: 'Usuario no encontrado', detalle: error.message });
         }
 
         res.json(user.Generos);
@@ -50,9 +50,9 @@ exports.getAllGenerosByUser = async (req, res) => {
 exports.createUsuarioGenero = async (req, res) => {
     try {
         const nuevaRelacion = await Usuario_Generos.create(req.body);
-        res.status(201).json(nuevaRelacion);
+        res.status(201).json({ message: 'Relación usuario-género creada correctamente', data: nuevaRelacion });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear la relación usuario-género', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear la relación usuario-género', detalle: error.message });
     }
 };
 
@@ -73,9 +73,9 @@ exports.updateUsuarioGenero = async (req, res) => {
                 id_genero: req.params.id_genero
             }
         });
-        res.json(updatedRelacion);
+        res.status(200).json({ message: 'Relación usuario-género actualizada correctamente', data: updatedRelacion });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la relación usuario-género' });
+        res.status(500).json({ error: 'Error al actualizar la relación usuario-género', detalle: error.message });
     }
 };
 

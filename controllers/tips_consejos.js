@@ -22,9 +22,9 @@ exports.getTipById = async (req, res) => {
 exports.createTip = async (req, res) => {
     try {
         const nuevoTip = await Tips_Consejos.create(req.body);
-        res.status(201).json(nuevoTip);
+        res.status(201).json({ message: 'Tip/Consejo creado correctamente', data: nuevoTip });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el tip/consejo', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el tip/consejo', detalle: error.message });
     }
 };
 
@@ -33,9 +33,9 @@ exports.updateTip = async (req, res) => {
         const [updated] = await Tips_Consejos.update(req.body, { where: { id_tip: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Tip/Consejo no encontrado', detalle: error.message });
         const tipActualizado = await Tips_Consejos.findByPk(req.params.id);
-        res.json(tipActualizado);
+        res.status(200).json({ message: 'Tip/Consejo actualizado correctamente', data: tipActualizado });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el tip/consejo', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el tip/consejo', detalle: error.message });
     }
 };
 

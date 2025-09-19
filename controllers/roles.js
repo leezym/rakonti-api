@@ -22,9 +22,9 @@ exports.getRolById = async (req, res) => {
 exports.createRol = async (req, res) => {
     try {
         const nuevoRol = await Roles.create(req.body);
-        res.status(201).json(nuevoRol);
+        res.status(201).json({ message: 'Rol creado correctamente', data: nuevoRol });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el rol', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el rol', detalle: error.message });
     }
 };
 
@@ -33,9 +33,9 @@ exports.updateRol = async (req, res) => {
         const [updated] = await Roles.update(req.body, { where: { id_genero: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Roles no encontrado', detalle: error.message });
         const updatedRol = await Roles.findByPk(req.params.id);
-        res.json(updatedRol);
+        res.status(200).json({ message: 'Rol actualizado correctamente', data: updatedRol });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el rol', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el rol', detalle: error.message });
     }
 };
 

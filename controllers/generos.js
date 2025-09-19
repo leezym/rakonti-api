@@ -22,9 +22,9 @@ exports.getGeneroById = async (req, res) => {
 exports.createGenero = async (req, res) => {
     try {
         const nuevoGenero = await Generos.create(req.body);
-        res.status(201).json(nuevoGenero);
+        res.status(201).json({ message: 'Género creado correctamente', data: nuevoGenero });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el género', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el género', detalle: error.message });
     }
 };
 
@@ -33,9 +33,9 @@ exports.updateGenero = async (req, res) => {
         const [updated] = await Generos.update(req.body, { where: { id_genero: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Género no encontrado', detalle: error.message });
         const updatedGenero = await Generos.findByPk(req.params.id);
-        res.json(updatedGenero);
+        res.status(200).json({ message: 'Género actualizado correctamente', data: updatedGenero });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el género', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el género', detalle: error.message });
     }
 };
 

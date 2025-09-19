@@ -22,7 +22,7 @@ exports.getTramaById = async (req, res) => {
 exports.createTrama = async (req, res) => {
     try {
         const nuevaTrama = await Tramas.create(req.body);
-        res.status(201).json(nuevaTrama);
+        res.status(201).json({ message: 'Trama creada correctamente', data: nuevaTrama });
     } catch (error) {
         res.status(500).json({ error: 'Error al crear la trama', detalle: error.message });
     }
@@ -34,7 +34,7 @@ exports.updateTrama = async (req, res) => {
         if (!trama) return res.status(404).json({ error: 'Tramas no encontrada', detalle: error.message });
 
         await trama.update(req.body);
-        res.json(trama);
+        res.status(200).json({ message: 'Trama actualizada correctamente', data: trama });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar la trama', detalle: error.message });
     }

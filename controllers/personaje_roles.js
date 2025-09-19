@@ -39,7 +39,7 @@ exports.getAllRolesByPersonaje = async (req, res) => {
         });
 
         if (!personaje) {
-            return res.status(404).json({ error: 'Personaje no encontrado' });
+            return res.status(404).json({ error: 'Personaje no encontrado', detalle: error.message });
         }
         
         res.json(personaje.roles);
@@ -51,9 +51,9 @@ exports.getAllRolesByPersonaje = async (req, res) => {
 exports.createPersonajeRol = async (req, res) => {
     try {
         const nuevaRelacion = await Personaje_Roles.create(req.body);
-        res.status(201).json(nuevaRelacion);
+        res.status(201).json({ message: 'Relación personaje-rol creada correctamente', data: nuevaRelacion });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear la relación personaje-rol', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear la relación personaje-rol', detalle: error.message });
     }
 };
 
@@ -74,9 +74,9 @@ exports.updatePersonajeRol = async (req, res) => {
                 id_rol: req.params.id_rol
             }
         });
-        res.json(updatedRelacion);
+        res.status(200).json({ message: 'Relación personaje-rol actualizada correctamente', data: updatedRelacion });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la relación personaje-rol' });
+        res.status(500).json({ error: 'Error al actualizar la relación personaje-rol', detalle: error.message });
     }
 };
 

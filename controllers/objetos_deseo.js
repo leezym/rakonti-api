@@ -22,9 +22,9 @@ exports.getObjetoById = async (req, res) => {
 exports.createObjeto = async (req, res) => {
     try {
         const nuevoObjeto = await Objetos_Deseo.create(req.body);
-        res.status(201).json(nuevoObjeto);
+        res.status(201).json({ message: 'Objeto de deseo creado correctamente', data: nuevoObjeto });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el objeto de deseo', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el objeto de deseo', detalle: error.message });
     }
 };
 
@@ -33,9 +33,9 @@ exports.updateObjeto = async (req, res) => {
         const [updated] = await Objetos_Deseo.update(req.body, { where: { id_objeto: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Objeto no encontrado', detalle: error.message });
         const objetoActualizado = await Objetos_Deseo.findByPk(req.params.id);
-        res.json(objetoActualizado);
+        res.status(200).json({ message: 'Objeto de deseo actualizado correctamente', data: objetoActualizado });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el objeto de deseo', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el objeto de deseo', detalle: error.message });
     }
 };
 

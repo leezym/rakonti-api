@@ -22,15 +22,6 @@ exports.getPersonajeById = async (req, res) => {
 
 exports.createPersonaje = async (req, res) => {
     try {
-        const nuevoPersonaje = await Personajes.create(req.body);
-        res.status(201).json(nuevoPersonaje);
-    } catch (error) {
-        res.status(400).json({ error: 'Error al crear el personaje', detalle: error.message });
-    }
-};
-
-exports.createPersonaje = async (req, res) => {
-    try {
         const { id_historia, nombre, apellido } = req.body;
 
         const personajeExistente = await Personajes.findOne({
@@ -42,24 +33,25 @@ exports.createPersonaje = async (req, res) => {
         });
 
         if (personajeExistente) {
-            return res.status(409).json({ error: 'Ya existe un personaje con ese nombre y apellido.' });
+            return res.status(400).json({ error: 'Ya existe un personaje con ese nombre y apellido' });
         }
 
         const nuevoPersonaje = await Personajes.create(req.body);
-        res.status(201).json(nuevoPersonaje);
+        res.status(201).json({ message: 'Personaje creado correctamente', data: nuevoPersonaje });
 
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el personaje', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear el personaje' });
     }
 };
 
 exports.updatePersonaje = async (req, res) => {
     try {
-        const { nombre, apellido } = req.body;
+        const { nombre, apellido, id_historia } = req.body;
         const { id } = req.params;
 
         const personajeExistente = await Personajes.findOne({
             where: {
+                id_historia: id_historia,
                 nombre: { [Op.iLike]: nombre },
                 apellido: { [Op.iLike]: apellido },
                 id_personaje: { [Op.ne]: id }
@@ -67,20 +59,16 @@ exports.updatePersonaje = async (req, res) => {
         });
 
         if (personajeExistente) {
-            return res.status(409).json({ error: 'Ya existe un personaje con ese nombre y apellido.' });
+            return res.status(400).json({ error: 'Ya existe un personaje con ese nombre y apellido' });
         }
 
         const [updated] = await Personajes.update(req.body, { where: { id_personaje: id } });
-
-        if (!updated) {
-            return res.status(404).json({ error: 'Personaje no encontrado' });
-        }
-
-        const personajeActualizado = await Personajes.findByPk(id);
-        res.status(200).json(personajeActualizado);
+        if (!updated) return res.status(404).json({ error: 'Personaje no encontrado', detalle: error.message });
+        const updatedPersonaje = await Personajes.findByPk(id);
+        res.status(200).json({ message: 'Personaje actualizado correctamente', data: updatedPersonaje });
 
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el personaje', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el personaje' });
     }
 };
 

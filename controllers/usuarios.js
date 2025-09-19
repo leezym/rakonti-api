@@ -27,11 +27,16 @@ exports.getUsuarioById = async (req, res) => {
 };
 
 exports.createUsuario = async (req, res) => {
+  
     try {
         const nuevoUsuario = await Usuarios.create(req.body);
-        res.status(201).json(nuevoUsuario);
+        res.status(201).json({ message: 'Usuario creado correctamente', data: nuevoUsuario });
     } catch (error) {
-        res.status(400).json({ error: 'Error al crear el usuario', detalle: error.message });
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).json({ error: 'Ya existe un usuario registrado con ese correo' });
+        }
+
+        res.status(500).json({ error: 'Error al registrar usuario' });
     }
 };
 
@@ -40,12 +45,12 @@ exports.updateUsuario = async (req, res) => {
         const usuario = await Usuarios.findByPk(req.params.id);
         if (usuario) {
             await usuario.update(req.body);
-            res.json(usuario);
+            res.status(200).json({ message: 'Usuario actualizado correctamente', data: usuario });
         } else {
             res.status(404).json({ error: 'Usuario no encontrado', detalle: error.message  });
         }
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el usuario', detalle: error.message  });
+        res.status(500).json({ error: 'Error al actualizar el usuario', detalle: error.message  });
     }
 };
 
@@ -54,7 +59,7 @@ exports.deleteUsuario = async (req, res) => {
         const usuario = await Usuarios.findByPk(req.params.id);
         if (usuario) {
             await usuario.destroy();
-            res.json({ mensaje: 'Usuario eliminado' });
+            res.json({ message: 'Usuario eliminado' });
         } else {
             res.status(404).json({ error: 'Usuario no encontrado', detalle: error.message  });
         }
@@ -64,14 +69,9 @@ exports.deleteUsuario = async (req, res) => {
 };
 
 exports.registrarUsuario = async (req, res) => {
-    const { correo, contrasena } = req.body;
+    const { contrasena } = req.body;
   
     try {
-        const usuarioExistente = await Usuarios.findOne({ where: { correo } });
-        if (usuarioExistente) {
-            return res.status(400).json({ error: 'Ya existe un usuario con ese correo' });
-        }
-
         const hashedPassword = await bcrypt.hash(contrasena, 10);
 
         const usuarioCreado = await Usuarios.create({
@@ -79,9 +79,13 @@ exports.registrarUsuario = async (req, res) => {
             contrasena: hashedPassword
         });
 
-        res.status(201).json({ mensaje: 'Usuario registrado exitosamente', id_usuario: usuarioCreado.id_usuario });
+        res.status(201).json({ message: 'Usuario registrado exitosamente', id_usuario: usuarioCreado.id_usuario });
     } catch (error) {
-        res.status(500).json({ error: 'Error al registrar usuario', detalle: error.message });
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).json({ error: 'Ya existe un usuario registrado con ese correo' });
+        }
+
+        res.status(500).json({ error: 'Error al registrar usuario' });
     }
 };
 
@@ -99,7 +103,7 @@ exports.iniciarSesion = async (req, res) => {
 
         const token = jwt.sign({ id: usuario.id, correo: usuario.correo }, 'SECRETO_JWT', { expiresIn: '1h' });
 
-        res.json({ mensaje: 'Inicio de sesión exitoso', token, id_usuario: usuario.id_usuario });
+        res.status(201).json({ message: 'Inicio de sesión exitoso', token, id_usuario: usuario.id_usuario });
     } catch (error) {
         res.status(500).json({ error: 'Error al iniciar sesión', detalle: error.message });
     }
@@ -113,15 +117,15 @@ exports.iniciarSesion = async (req, res) => {
         const usuario = await Usuarios.findByPk(userId);
 
         const coincide = await bcrypt.compare(contraseñaActual, usuario.contrasena);
-        if (!coincide) return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        if (!coincide) return res.status(401).json({ error: 'Contraseña actual incorrecta', detalle: error.message });
 
         const nuevaHash = await bcrypt.hash(nuevaContraseña, 10);
         usuario.contrasena = nuevaHash;
         await usuario.save();
 
-        res.json({ mensaje: 'Contraseña actualizada correctamente' });
+        res.status(201).json({ message: 'Contraseña actualizada correctamente' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar contrasena' });
+        res.status(500).json({ error: 'Error al actualizar contrasena', detalle: error.message });
     }
 };
 
@@ -130,7 +134,7 @@ exports.enviarEnlaceRecuperacion = async (req, res) => {
   
     try {
       const usuario = await Usuarios.findOne({ where: { correo } });
-      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado', detalle: error.message });
   
       // Crear token JWT de recuperación válido por 15 minutos
       const token = jwt.sign({ id: usuario.id, correo }, 'SECRETO_RECUPERACION', { expiresIn: '15m' });
@@ -145,9 +149,9 @@ exports.enviarEnlaceRecuperacion = async (req, res) => {
          <a href="${enlace}">${enlace}</a>`
       );
   
-      res.json({ mensaje: 'Enlace de recuperación enviado al correo' });
+      res.status(201).json({ message: 'Enlace de recuperación enviado al correo' });
     } catch (error) {
-      res.status(500).json({ error: 'Error al enviar el enlace' });
+      res.status(500).json({ error: 'Error al enviar el enlace', detalle: error.message });
     }
 };
 
@@ -158,16 +162,16 @@ exports.restablecerContraseña = async (req, res) => {
       const decoded = jwt.verify(token, 'SECRETO_RECUPERACION');
   
       const usuario = await Usuarios.findByPk(decoded.id);
-      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado', detalle: error.message });
   
       const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
       usuario.contrasena = hashedPassword;
       await usuario.save();
   
-      res.json({ mensaje: 'Contraseña restablecida exitosamente' });
+      res.status(201).json({ message: 'Contraseña restablecida exitosamente' });
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        return res.status(400).json({ error: 'El enlace ha expirado' });
+        return res.status(400).json({ error: 'El enlace ha expirado', detalle: error.message });
       }
       res.status(400).json({ error: 'Token inválido' });
     }

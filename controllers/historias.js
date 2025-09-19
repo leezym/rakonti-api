@@ -40,44 +40,40 @@ exports.createHistoria = async (req, res) => {
     });
 
     if (historiaExistente) {
-        return res.status(409).json({ error: 'Ya tienes una historia con ese título' });
+        return res.status(400).json({ error: 'Ya tienes una historia con ese título' });
     }
 
     const nuevaHistoria = await Historias.create(req.body);
-    res.status(201).json(nuevaHistoria);
+    res.status(201).json({ message: 'Historia creada correctamente', data: nuevaHistoria });
 
   } catch (error) {
-    res.status(400).json({ error: 'Error al crear la historia', detalle: error.message });
+    res.status(500).json({ error: 'Error al crear la historia', detalle: error.message });
   }
 };
 
 exports.updateHistoria = async (req, res) => {
     try {
-        const { titulo } = req.body;
+        const { titulo, id_usuario } = req.body;
         const { id } = req.params;
 
         const historiaExistente = await Historias.findOne({
             where: {
-                titulo: { [Op.iLike]: titulo },
+                titulo: { [Op.iLike]: titulo.trim() },
+                id_usuario,
                 id_historia: { [Op.ne]: id }
             }
         });
-
+        
         if (historiaExistente) {
-            return res.status(409).json({ error: 'Ya existe una historia con ese título.' });
+            return res.status(400).json({ error: 'Ya tienes una historia con ese título' });
         }
-
         const [updated] = await Historias.update(req.body, { where: { id_historia: id } });
-
-        if (!updated) {
-            return res.status(404).json({ error: 'Historias no encontrada' });
-        }
-
+        if (!updated) return res.status(404).json({ error: 'Historias no encontrada', detalle: error.message });
         const updatedHistoria = await Historias.findByPk(id);
-        res.status(200).json(updatedHistoria);
+        res.status(200).json({ message: 'Historia actualizada correctamente', data: updatedHistoria });
 
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar la historia', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar la historia', detalle: error.message });
     }
 };
 

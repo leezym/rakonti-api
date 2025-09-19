@@ -48,8 +48,7 @@ exports.createPaso = async (req, res) => {
         }
 
     } catch (error) {
-        console.error('Error al crear o actualizar el paso:', error);
-        res.status(400).json({ error: 'Error al crear o actualizar el paso', detalle: error.message });
+        res.status(500).json({ error: 'Error al crear o actualizar el paso', detalle: error.message });
     }
 };
 
@@ -58,9 +57,9 @@ exports.updatePaso = async (req, res) => {
         const [updated] = await Pasos_Estructura_Narrativa_Historia.update(req.body, { where: { id: req.params.id } });
         if (!updated) return res.status(404).json({ error: 'Paso no encontrado', detalle: error.message });
         const pasoActualizado = await Pasos_Estructura_Narrativa_Historia.findByPk(req.params.id);
-        res.json(pasoActualizado);
+        res.status(200).json({ message: 'Paso actualizado correctamente', data: pasoActualizado });
     } catch (error) {
-        res.status(400).json({ error: 'Error al actualizar el paso', detalle: error.message });
+        res.status(500).json({ error: 'Error al actualizar el paso', detalle: error.message });
     }
 };
 
